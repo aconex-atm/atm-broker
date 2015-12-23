@@ -32,10 +32,18 @@ function memeIt(occupied){
         function(){console.log("Request succesfull")});
 
 }
+function errorHandler(error) {
+    console.log("Connection Error: " + error.toString());
+}
 
+function closeHandler() {
+    console.log('echo-protocol Connection Closed', arguments);
+}
 
 clientToilet.on('connect', function(connection) {
     console.log('WebSocket Toilet Client Connected');
+    connection.on('error', errorHandler);
+    connection.on('close', closeHandler);
     connection.on('message', function(message) {
         if (message.type === 'utf8') {
             toiletOccupied = JSON.parse(message.utf8Data).occupied;
@@ -49,6 +57,8 @@ clientToilet.connect('ws://52.62.29.150:8080/level/4/room/male/slot/1/subscribe'
 
 clientUrinal.on('connect', function(connection) {
     console.log('WebSocket Urinal Client Connected');
+    connection.on('error', errorHandler);
+    connection.on('close', closeHandler);
     connection.on('message', function(message) {
         if (message.type === 'utf8') {
             urinalOccupied = JSON.parse(message.utf8Data).occupied;
