@@ -26,7 +26,7 @@ function memeIt(occupied){
     }
 
     request({ 
-        url: "http://localhost:2500", 
+        url: "http://marcelo.engr.acx:2500", 
         method: 'PUT', 
         json: meme}, 
         function(){console.log("Request succesfull")});
